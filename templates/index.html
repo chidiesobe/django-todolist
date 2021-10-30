@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+        <form action="{% url 'createTodo' %}" method="post">
+            {%csrf_token%}
+            <label for="title" class="title">Title: </label>
+            <input type="text" name="title" class="form-control" id="title">
+            <br>
+            <label for="message" class="message">Message: </label>
+            <textarea name="message" class="form-control" id="" cols="30" rows="10"></textarea>
+            <br>
+            <button type="submit" class="form-control btn btn-sm btn-primary">Create Todo</button>
+        </form>
+    {% if incomplete_todo %}
+        <table class="table">
+            <thead>
+                <td>Title</td>
+                <td>Status</td>
+                <td>Date</td>
+                <td></td>
+            </thead>
+            <tbody>
+                {% for todo in incomplete_todo %}
+                    <tr>
+                        <td>{{ todo.title }}</td>
+                        <td>{{ todo.message }}</td>
+                        <td>{{ todo.datecreated }}</td>
+                        <td><a href="{% url 'updateTodo' todo.id %}">Mark as Complete</a></td>
+                    </tr>
+                {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    {%else%}
+        <h3>You have no incomplete todo(s) </h3>
+    {%endif%}
+
+{% endblock %}
+        
